@@ -3,11 +3,8 @@ import os
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 
-# YT_API_KEY скопирован из гугла и вставлен в переменные окружения
-api_key: str = os.getenv('YT_API_KEY')
+load_dotenv()
 
-# создать специальный объект для работы с API
-youtube = build('youtube', 'v3', developerKey=api_key)
 
 class Channel:
     """Класс для ютуб-канала"""
@@ -18,7 +15,7 @@ class Channel:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
         self.__channel_id = channel_id
 
-        channel = youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
+        channel = Channel.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
 
         self.title = channel['items'][0]['snippet']['title']
         self.description = channel['items'][0]['snippet']['description']
@@ -28,7 +25,7 @@ class Channel:
         self.video_count = channel['items'][0]['statistics']['videoCount']
 
     def print_info(self) -> None:
-        channel = Channel.youtube.channels().list(id=self.__id_channel, part='snippet,statistics').execute()
+        channel = Channel.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
         dict_channel = json.dumps(channel, indent=2, ensure_ascii=False)
         print(dict_channel)
 
@@ -39,7 +36,7 @@ class Channel:
     @classmethod
     def get_service(cls):
         """Класс-метод, возвращающий объект для работы с YouTube API."""
-        return youtube
+        return Channel.youtube
 
     def to_json(self, file):
         """Метод, сохраняющий в файл значения атрибутов экземпляра `Channel`"""
