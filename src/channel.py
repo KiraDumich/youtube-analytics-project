@@ -50,3 +50,31 @@ class Channel:
         }
         with open(file, 'a', encoding='utf-8') as file_in:
             json.dump(data, file_in, indent=2, ensure_ascii=False)
+
+    def __str__(self):
+        """Метод, возвращающий название и ссылку на канал"""
+        return f'<{self.title}> ({self.url})'
+
+    def __sub__(self, other):
+        """Метод для сравнения двух объектов по количеству подписчиков"""
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __gt__(self, other):
+        """Метод для сравнения двух объектов по количеству подписчиков"""
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        """Метод для сравнения двух объектов по количеству подписчиков"""
+        return int(self.subscriber_count) >= int(other.subscriber_count)
+
+    def __lt__(self, other):
+        """Метод для сравнения двух объектов по количеству подписчиков"""
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
+    def __le__(self, other):
+        """Метод для сравнения двух объектов по количеству подписчиков"""
+        return int(self.subscriber_count) <= int(other.subscriber_count)
+
+    def __add__(self, other):
+        """Метод, возвращающий результат сложения двух объектов"""
+        return int(self.subscriber_count) + int(other.subscriber_count)
